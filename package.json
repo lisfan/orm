@@ -1,0 +1,42 @@
+{
+  "name": "@~lisfan/orm",
+  "version": "1.0.0",
+  "description": "对象关系映射类：API接口字段映射，前后端分离开发时，不再依赖后端接口定义的数据结构",
+  "main": "index.js",
+  "scripts": {
+    "pub-pre": "git pull && npm version prerelease",
+    "pub-n": "npm run pub-pre && npm publish --tag nightly && npm run pub-post",
+    "pub-a": "npm run pub-pre && npm publish --tag alpha && npm run pub-post",
+    "pub-b": "npm run pub-pre && npm publish --tag beta && npm run pub-post",
+    "pub-rc": "npm run pub-pre && npm publish --tag rc && npm run pub-post",
+    "pub-s": "npm run pub-pre && npm publish --tag stable && npm run pub-post",
+    "pub-x": "npm run pub-pre && npm publish --tag next && npm run pub-post",
+    "pub-l": "npm run pub-pre && npm publish && npm run pub-post",
+    "pub": "git pull && npm publish && npm run pub-post",
+    "pub-post": "git commit -am \"chore: publish@$npm_package_version\" && git push",
+    "docs": "rm -rf docs && jsdoc -c conf/jsdoc.config.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lisfan/orm.git"
+  },
+  "keywords": [
+    "orm",
+    "object relative mapping",
+    "api",
+    "data model"
+  ],
+  "author": "lisfan <goolisfan@gmail.com> (https://www.npmjs.com/~lisfan)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lisfan/orm/issues"
+  },
+  "homepage": "https://github.com/lisfan/orm#readme",
+  "dependencies": {
+    "@~lisfan/validation": "^1.0.0"
+  },
+  "devDependencies": {
+    "docdash": "~0.4.0",
+    "jsdoc": "~3.5.5"
+  }
+}

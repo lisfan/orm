@@ -1,0 +1,216 @@
+/**
+ * @file 数据对象关系映射
+ */
+
+import validation from '@~lisfan/validation'
+
+// 私有方法
+const _actions = {
+  /**
+   * 通过对象键名分割对象，返回以键名作为路径平辅展开后的新对象
+   *
+   * @since 1.0.0
+   *
+   * @param {object} target - 目标对象
+   * @param {string[]} keyList - 路径键列表
+   *
+   * @returns {object}
+   */
+  splitObjectPathByKey(target, keyList = []) {
+    let obj = {}
+    // 如果是一个对象，则递归
+    Object.entries(target).forEach(([key, value]) => {
+      if (typeof value === 'object') {
+        obj = {
+          ...obj,
+          ..._actions.splitObjectPathByKey(value, [...keyList, key])
+        }
+      } else {
+        obj[[...keyList, key].join('.')] = value
+      }
+    })
+
+    return obj
+  },
+  /**
+   * 以对象路径方式的方式设置目标对象的键值
+   * 如果对象本身的链路中段不存在值的，则会将其链路设置为新对象
+   *
+   * @since 1.0.0
+   *
+   * @param {object} target - 目标对象
+   * @param {string} path - 路径
+   * @param {*} value - 值
+   *
+   * @returns {object}
+   */
+  setObjectValueByPath(target, path, value) {
+    // [注] 不使用eval
+    const pathList = path.split('.')
+    const pathListLen = pathList.length
+
+    return pathList.reduce((result, key, index) => {
+      // 如果已经查询到最后一个对象值，则进行值设定
+      if (index === pathListLen - 1) {
+        result[key] = value
+        return result
+      }
+
+      // 判断当前链路是否可取值
+      // 当前路径不存在值
+      // 当前路径不是对象
+      if (!result[key] || !validation.isPlainObject(result[key])) {
+        result[key] = {}
+      }
+
+      return result[key]
+    }, target)
+  },
+}
+
+/**
+ * @classdesc 数据对象关系映射类
+ *
+ * @class
+ */
+class ORM {
+  /**
+   * 默认配置选项
+   *
+   * @since 1.0.0
+   *
+   * @static
+   * @readonly
+   * @memberOf ORM
+   *
+   * @type {object}
+   * @property {string} name='ORM' - 日志打印器名称标记
+   * @property {boolean} debug=false - 日志打印器调试模式开启状态
+   */
+  static options = {
+    name: 'ORM',
+    debug: false,
+  }
+
+  /**
+   * 更新默认配置选项
+   *
+   * @since 1.0.0
+   *
+   * @see ORM.options
+   *
+   * @param {object} options - 配置选项见{@link ORM.options}
+   *
+   * @returns {ORM}
+   */
+  static config(options) {
+    const ctr = self
+
+    // 以内置配置为优先
+    ctr.options = {
+      ...ctr.options,
+      ...options
+    }
+
+    return ctr
+  }
+
+  /**
+   * 构造函数
+   *
+   * @see ORM.options
+   *
+   * 数据字段名称的映射对应关系
+   * @param {object} options - 配置选项见{@link
+    *   ORM.options}，若该参数为`PlainObject`类型，且包含了`options.mapping`属性也是一个`PlainObject`类型，则该参数为配置选项，若不包含mapping属性值，则该参数表示快捷的`options.mapping`属性设置
+   * @param {object} [options.mapping] - 映射表
+   */
+  constructor(options) {
+    const ctr = this.constructor
+
+    if (options && validation.isPlainObject(options) && !validation.isPlainObject(options.mapping)) {
+      options = {
+        mapping: options
+      }
+    }
+
+    this.$options = {
+      ...ctr.options,
+      ...options
+    }
+  }
+
+  /**
+   * 实例初始配置项
+   *
+   * @since 1.0.0
+   *
+   * @readonly
+   *
+   * @type {object}
+   */
+  $options = undefined
+
+  /**
+   * 实例的映射关系表
+   *
+   * @since 1.0.0
+   *
+   * @getter
+   * @readonly
+   *
+   * @type {object}
+   */
+  get $mapping() {
+    return this.$options.mapping
+  }
+
+  /**
+   * 映射数据
+   * 若数据非纯对象格式，则返回原数据
+   *
+   * @param {object} data - 数据字典
+   *
+   * @returns {object}
+   */
+  map(data) {
+    // 数据必须是一个对象
+    if (!validation.isPlainObject(data)) {
+      return data
+    }
+
+    // 转换思路
+    // 1. 以key为名称，递归分割对象，形成路径，平辅展开对象结构
+    // 2. 序列化分割后的对象为字符串，通过自定义的映射对象关系字典，替换为新的字符串
+    // 3. 反序列化，再遍历以对象路径的方法重新设置对象
+
+    // 1. 分割对象
+    const splitedData = _actions.splitObjectPathByKey(data)
+
+    // 替换对象中的键值
+    const stringifySplitedData = JSON.stringify(splitedData)
+
+    // 2.
+    const mappedSplitedData = Object.entries(this.$mapping).reduce((mappingStringifySplitedData, [oriKey, mapKey]) => {
+      // 进行处理
+      const regexp = new RegExp(`(?<=")${oriKey}(?=(\\.[^:"]*)?":)`, 'g')
+      // /(?<=")sub(?=":)/g
+      // `(?<=")${oriKey}(?=[^:"]*":)`
+      return mappingStringifySplitedData.replace(regexp, mapKey)
+    }, stringifySplitedData)
+
+    // 统一替换占位符
+    // mappedSplitedData = mappedSplitedData.replace(/\[#*([^\]]*)\]/g, '$1')
+
+    // 3.
+    const mappedData = {}
+
+    Object.entries(JSON.parse(mappedSplitedData)).forEach(([path, value]) => {
+      _actions.setObjectValueByPath(mappedData, path, value)
+    })
+
+    return mappedData
+  }
+}
+
+export default ORM
