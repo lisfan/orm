@@ -59,9 +59,7 @@ const _actions = {
       // 判断当前链路是否可取值
       // 当前路径不存在值
       // 当前路径不是对象
-      if (!result[key] || !validation.isPlainObject(result[key])) {
-        result[key] = {}
-      }
+      if (!result[key] || !validation.isPlainObject(result[key])) result[key] = {}
 
       return result[key]
     }, target)

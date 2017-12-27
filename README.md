@@ -24,3 +24,64 @@ npm install -S @~lisfan/orm
 ```js
 import ORM from '@~lisfan/orm'
 
+      const orm = new ORM({
+        'id': 'uid',
+        'name': 'othername',
+        'othername': 'diffname',
+        'book': 'fav.book',
+        'sport': 'fav.sport',
+        'fav.moive': 'fav.movie',
+      })
+
+      const data = {
+        id: 10,
+        name: 'msl',
+        book: {
+          love: 'love',
+          lucky: 'lucky'
+        },
+        sport: {
+          love: 'love',
+          lucky: 'lucky'
+        },
+        fav: {
+          moive: {
+            love: 'love',
+            lucky: 'lucky'
+          }
+        },
+        other: {
+          hegiht: 180,
+          weight: 99,
+          other: {
+            id: 30
+          }
+        }
+      }
+
+      // mapped data
+      //      {
+      //        uid: 10,
+      //        diffname: 'msl',
+      //        fav: {
+      //          book: {
+      //            love: 'love',
+      //            lucky: 'lucky'
+      //          },
+      //          movie: {
+      //            love: 'love',
+      //            lucky: 'lucky'
+      //          },
+      //          sport: {
+      //            love: 'love',
+      //            lucky: 'lucky'
+      //          },
+      //        },
+      //        other: {
+      //          hegiht: 180,
+      //          weight: 99,
+      //          other: {
+      //            id: 30
+      //          }
+      //        }
+      //      }
