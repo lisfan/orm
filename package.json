@@ -1,7 +1,7 @@
 {
   "name": "@~lisfan/orm",
   "version": "1.0.0",
-  "description": "对象关系映射类：API接口字段映射，前后端分离开发时，不再依赖后端接口定义的结构",
+  "description": "对象关系映射类：API接口字段映射，前后端分离开发时，不再依赖后端接口定义的数据结构",
   "main": "index.js",
   "scripts": {
     "pub-pre": "git pull && npm version prerelease",
@@ -33,7 +33,6 @@
   },
   "homepage": "https://github.com/lisfan/orm#readme",
   "dependencies": {
-    "@~lisfan/logger": "^1.0.0",
     "@~lisfan/validation": "^1.0.0"
   },
   "devDependencies": {

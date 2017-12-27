@@ -3,7 +3,6 @@
  */
 
 import validation from '@~lisfan/validation'
-import Logger from '@~lisfan/logger'
 
 // 私有方法
 const _actions = {
@@ -139,22 +138,7 @@ class ORM {
       ...ctr.options,
       ...options
     }
-
-    // 初始化打印器实例
-    this._logger = new Logger({
-      name: this.$options.name,
-      debug: this.$options.debug,
-    })
   }
-
-  /**
-   * 实例日志打印器
-   *
-   * @since 1.0.0
-   *
-   * @private
-   */
-  _logger = undefined
 
   /**
    * 实例初始配置项
@@ -192,7 +176,6 @@ class ORM {
   map(data) {
     // 数据必须是一个对象
     if (!validation.isPlainObject(data)) {
-      this._logger.log('data param is not a object type! please check.')
       return data
     }
 
@@ -210,8 +193,9 @@ class ORM {
     // 2.
     const mappedSplitedData = Object.entries(this.$mapping).reduce((mappingStringifySplitedData, [oriKey, mapKey]) => {
       // 进行处理
-      const regexp = new RegExp(`(?<=")${oriKey}(?=[^:"]*":)`, 'g')
-
+      const regexp = new RegExp(`(?<=")${oriKey}(?=(\\.[^:"]*)?":)`, 'g')
+      // /(?<=")sub(?=":)/g
+      // `(?<=")${oriKey}(?=[^:"]*":)`
       return mappingStringifySplitedData.replace(regexp, mapKey)
     }, stringifySplitedData)
 
