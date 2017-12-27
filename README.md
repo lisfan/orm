@@ -60,28 +60,29 @@ import ORM from '@~lisfan/orm'
       }
 
       // mapped data
-      //      {
-      //        uid: 10,
-      //        diffname: 'msl',
-      //        fav: {
-      //          book: {
-      //            love: 'love',
-      //            lucky: 'lucky'
-      //          },
-      //          movie: {
-      //            love: 'love',
-      //            lucky: 'lucky'
-      //          },
-      //          sport: {
-      //            love: 'love',
-      //            lucky: 'lucky'
-      //          },
-      //        },
-      //        other: {
-      //          hegiht: 180,
-      //          weight: 99,
-      //          other: {
-      //            id: 30
-      //          }
-      //        }
+      // 
+      //  {
+      //    uid: 10,
+      //    diffname: 'msl',
+      //    fav: {
+      //      book: {
+      //        love: 'love',
+      //        lucky: 'lucky'
+      //      },
+      //      movie: {
+      //        love: 'love',
+      //        lucky: 'lucky'
+      //      },
+      //      sport: {
+      //        love: 'love',
+      //        lucky: 'lucky'
+      //      },
+      //    },
+      //    other: {
+      //      hegiht: 180,
+      //      weight: 99,
+      //      other: {
+      //        id: 30
       //      }
+      //    }
+      //  }
