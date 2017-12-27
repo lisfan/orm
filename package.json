@@ -1,7 +1,7 @@
 {
   "name": "@~lisfan/orm",
   "version": "1.0.0",
-  "description": "API接口字段映射",
+  "description": "对象关系映射类：API接口字段映射，前后端分离开发时，不再依赖后端接口定义的结构",
   "main": "index.js",
   "scripts": {
     "pub-pre": "git pull && npm version prerelease",
@@ -22,9 +22,9 @@
   },
   "keywords": [
     "orm",
-    "model",
+    "object relative mapping",
     "api",
-    "data"
+    "data model"
   ],
   "author": "lisfan <goolisfan@gmail.com> (https://www.npmjs.com/~lisfan)",
   "license": "MIT",
@@ -32,6 +32,10 @@
     "url": "https://github.com/lisfan/orm/issues"
   },
   "homepage": "https://github.com/lisfan/orm#readme",
+  "dependencies": {
+    "@~lisfan/logger": "^1.0.0",
+    "@~lisfan/validation": "^1.0.0"
+  },
   "devDependencies": {
     "docdash": "~0.4.0",
     "jsdoc": "~3.5.5"
