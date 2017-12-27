@@ -84,12 +84,12 @@ class ORM {
    * @memberOf ORM
    *
    * @type {object}
-   * @property {string} name='ORM' - 日志打印器名称标记
-   * @property {boolean} debug=false - 日志打印器调试模式开启状态
+   // * @property {string} name='ORM' - 日志打印器名称标记
+   // * @property {boolean} debug=false - 日志打印器调试模式开启状态
    */
   static options = {
-    name: 'ORM',
-    debug: false,
+    // name: 'ORM',
+    // debug: false,
   }
 
   /**
@@ -120,10 +120,9 @@ class ORM {
    *
    * @see ORM.options
    *
-   * 数据字段名称的映射对应关系
    * @param {object} options - 配置选项见{@link
     *   ORM.options}，若该参数为`PlainObject`类型，且包含了`options.mapping`属性也是一个`PlainObject`类型，则该参数为配置选项，若不包含mapping属性值，则该参数表示快捷的`options.mapping`属性设置
-   * @param {object} [options.mapping] - 映射表
+   * @param {object} [options.mapping] - 映射表：数据字段名称的映射对应关系
    */
   constructor(options) {
     const ctr = this.constructor
