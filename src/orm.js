@@ -102,15 +102,15 @@ class ORM {
    * @returns {ORM}
    */
   static config(options) {
-    const ctr = self
+    const ctor = self
 
     // 以内置配置为优先
-    ctr.options = {
-      ...ctr.options,
+    ctor.options = {
+      ...ctor.options,
       ...options
     }
 
-    return ctr
+    return ctor
   }
 
   /**
@@ -123,7 +123,7 @@ class ORM {
    * @param {object} [options.mapping] - 映射表：数据字段名称的映射对应关系
    */
   constructor(options) {
-    const ctr = this.constructor
+    const ctor = this.constructor
 
     if (options && validation.isPlainObject(options) && !validation.isPlainObject(options.mapping)) {
       options = {
@@ -132,7 +132,7 @@ class ORM {
     }
 
     this.$options = {
-      ...ctr.options,
+      ...ctor.options,
       ...options
     }
   }

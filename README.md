@@ -60,7 +60,7 @@ import ORM from '@~lisfan/orm'
       }
 
       // mapped data
-      // 
+      //
       //  {
       //    uid: 10,
       //    diffname: 'msl',
